@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 
-@RepositoryRestResource
+//@RepositoryRestResource
 public interface BankAccountRepository extends JpaRepository<BankAccount,String> {
 
-    @RestResource(path="byType")
-    List<BankAccount> findByType(@PathVariable("y") AccountType type);
+//    @RestResource(path="byType")
+//    List<BankAccount> findByType(@PathVariable("y") AccountType type);
+
 }

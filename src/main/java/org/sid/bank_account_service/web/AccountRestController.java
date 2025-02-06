@@ -1,8 +1,11 @@
 package org.sid.bank_account_service.web;
 
 import jakarta.persistence.Entity;
+import org.sid.bank_account_service.dto.BankAccountRequestDTO;
+import org.sid.bank_account_service.dto.BankAccountResponseDTO;
 import org.sid.bank_account_service.entities.BankAccount;
 import org.sid.bank_account_service.repositories.BankAccountRepository;
+import org.sid.bank_account_service.service.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,11 +14,13 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class AccountRestController {
     private BankAccountRepository bankAccountRepository;
-   public AccountRestController(BankAccountRepository bankAccountRepository) {
+    private BankAccountService accountService;
+   public AccountRestController(BankAccountRepository bankAccountRepository, BankAccountService bankAccountService) {
        this.bankAccountRepository = bankAccountRepository;
+       this.accountService = bankAccountService;
    }
 
    @GetMapping("/bankAccounts")
@@ -28,12 +33,8 @@ public class AccountRestController {
                 .orElseThrow(()->new RuntimeException(String.format("Account %s not found",id)));
     }
     @PostMapping("/bankAccounts")
-    public BankAccount save(@RequestBody BankAccount bankAccount){
-      if (bankAccount.getId()==null)bankAccount.setId((UUID.randomUUID().toString()));
-      if (bankAccount.getCreateAt()==null) bankAccount.setCreateAt(new Date());
-
-      return bankAccountRepository.save(bankAccount);
-
+    public BankAccountResponseDTO save(@RequestBody BankAccountRequestDTO requestDTO){
+      return accountService.addAccount(requestDTO);
     }
     @PutMapping("/bankAccounts/{id}")
     public BankAccount update(@RequestBody BankAccount bankAccount ,@PathVariable String id ){
