@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import org.sid.bank_account_service.dto.BankAccountRequestDTO;
 import org.sid.bank_account_service.dto.BankAccountResponseDTO;
 import org.sid.bank_account_service.entities.BankAccount;
+import org.sid.bank_account_service.mapper.AccountMapper;
 import org.sid.bank_account_service.repositories.BankAccountRepository;
 import org.sid.bank_account_service.service.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,12 @@ import java.util.UUID;
 //@RequestMapping("/api")
 public class AccountRestController {
     private BankAccountRepository bankAccountRepository;
-    private BankAccountService accountService;
-   public AccountRestController(BankAccountRepository bankAccountRepository, BankAccountService bankAccountService) {
+    private BankAccountService bankAccountService;
+    private AccountMapper accountMapper;
+   public AccountRestController(BankAccountRepository bankAccountRepository, BankAccountService bankAccountService, AccountMapper accountMapper) {
        this.bankAccountRepository = bankAccountRepository;
-       this.accountService = bankAccountService;
+       this.bankAccountService = bankAccountService;
+       this.accountMapper = accountMapper;
    }
 
    @GetMapping("/bankAccounts")
@@ -34,7 +37,7 @@ public class AccountRestController {
     }
     @PostMapping("/bankAccounts")
     public BankAccountResponseDTO save(@RequestBody BankAccountRequestDTO requestDTO){
-      return accountService.addAccount(requestDTO);
+      return bankAccountService.addAccount(requestDTO);
     }
     @PutMapping("/bankAccounts/{id}")
     public BankAccount update(@RequestBody BankAccount bankAccount ,@PathVariable String id ){
@@ -48,7 +51,7 @@ public class AccountRestController {
         return bankAccountRepository.save(account);
 
     }
-    @DeleteMapping("/bankAcounts/{id}")
+    @DeleteMapping("/bankAccounts/{id}")
     public void delete(@PathVariable String id){
        bankAccountRepository.deleteById(id);
     }
