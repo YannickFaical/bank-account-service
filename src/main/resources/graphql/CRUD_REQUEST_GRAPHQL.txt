@@ -1,0 +1,59 @@
+/// liste des comptes
+query{
+  accountsList{
+    id,
+    balance,
+  }
+}
+
+/// recuperer un compte sachant son id
+
+query{
+  bankAccountById(id:"4e4c0ea2-e052-477f-914c-e4db2bd7b1a2"){
+    balance,currency
+
+  }
+}
+
+///// request paramétré pour ajout d'un compte
+mutation($t:String,$b:Float,$c:String){
+  addAccount(BankAccount:{
+     type: $t,
+      balance:$b,
+    currency:$c
+  }
+  ){
+    id,
+    type,balance
+  }
+}
+
+/// variables
+{"t": "CURRENT_ACCOUNT",
+"b": 70000,
+"c": "EUR"
+}
+
+
+///update
+
+
+mutation($id:String,$t:String,$b:Float,$c:String){
+  updateAccount(
+    id:$id,
+    bankAccount :{
+     type: $t,
+      balance:$b,
+    currency:$c
+  }
+  ){
+    id,
+    type,balance
+  }
+
+ variables :
+ {"t": "CURRENT_ACCOUNT",
+ "b": 70000,
+ "c": "EUR",
+ "id": "da3ad2dd-6fde-4390-b45b-3a85c906def4"
+ }

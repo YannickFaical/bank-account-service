@@ -42,4 +42,24 @@ public class BankAccountServiceImpl implements BankAccountService {
         return bankAccountResponseDTO;
 
     }
+    @Override
+    public BankAccountResponseDTO updateAccount(String id, BankAccountRequestDTO bankAccountDTO) {
+
+        // mapping des dto vers l'entité
+        BankAccount bankAccount=BankAccount.builder()
+                .id(id)
+                .createAt(new Date())
+                .balance(bankAccountDTO.getBalance())
+                .type(bankAccountDTO.getType())
+                .currency(bankAccountDTO.getCurrency())
+                .build();
+        BankAccount savedBankAccount=  bankAccountRepository.save(bankAccount);
+
+
+        // transferer les données (operation inverse)
+        BankAccountResponseDTO bankAccountResponseDTO = accountMapper.fromBankAccount(savedBankAccount);
+
+        return bankAccountResponseDTO;
+
+    }
 }
