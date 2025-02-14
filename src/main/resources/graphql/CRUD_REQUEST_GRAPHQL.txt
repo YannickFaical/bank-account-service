@@ -57,3 +57,8 @@ mutation($id:String,$t:String,$b:Float,$c:String){
  "c": "EUR",
  "id": "da3ad2dd-6fde-4390-b45b-3a85c906def4"
  }
+
+/// delete
+mutation{
+deleteAccount(id:"da3ad2dd-6fde-4390-b45b-3a85c906def4")
+}
