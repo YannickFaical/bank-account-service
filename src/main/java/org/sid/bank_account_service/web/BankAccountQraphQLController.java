@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import org.sid.bank_account_service.dto.BankAccountRequestDTO;
 import org.sid.bank_account_service.dto.BankAccountResponseDTO;
 import org.sid.bank_account_service.entities.BankAccount;
+import org.sid.bank_account_service.entities.Customer;
 import org.sid.bank_account_service.repositories.BankAccountRepository;
+import org.sid.bank_account_service.repositories.CustomerRepository;
 import org.sid.bank_account_service.service.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -24,6 +26,8 @@ import java.util.UUID;
 
 @Controller
 public class BankAccountQraphQLController {
+    @Autowired
+    CustomerRepository customerRepository;
 
     @Autowired
     private BankAccountRepository bankAccountRepository;
@@ -37,6 +41,10 @@ public class BankAccountQraphQLController {
     public BankAccount bankAccountById(@Argument String id){
         return bankAccountRepository.findById(id).orElseThrow(()->new RuntimeException(String.format("Account %s not found",id)));
 
+    }
+    @QueryMapping
+    public List<Customer> customers(){
+        return customerRepository.findAll();
     }
     @MutationMapping
     public BankAccountResponseDTO addAccount(@Argument BankAccountRequestDTO BankAccount){

@@ -1,6 +1,7 @@
 type Query{
     accountsList :[BankAccount]
     bankAccountById (id:String):BankAccount
+    customers:[Customer]
 
 
 }
@@ -9,11 +10,15 @@ type BankAccount{
     createdAt : Float,
     balance :Float,
     currency :String,
-    type:String
+    type:String,
+    customer:Customer
 }
 
-
-
+type  Customer{
+    id:ID,
+    name:String,
+    bankAccounts:[BankAccount]
+}
 
 
 
